@@ -1,6 +1,6 @@
 # API-Automation-with-Karate
 
-This API automation script was written with Karate (BDD testing framework which build on top of cucumber. The script written based on Gherkin language (.feature extension). The script (ApiTest.feature) contain 2 scenario for GET and POST with each assertion. The script has been succesfully running and passed.
+This API automation script was written with Karate (BDD testing framework which build on top of cucumber. The script written based on Gherkin language (.feature extension). The script (scriptAPI.feature) contain 2 scenario for GET and POST with each assertion. The script has been succesfully running and passed.
 
 Clone project and open it with your IDE (Eclipse)
 
