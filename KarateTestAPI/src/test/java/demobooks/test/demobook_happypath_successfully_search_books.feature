@@ -8,6 +8,9 @@ Feature: Retrieve a single book by ISBN
     * def getAllBooks = read('classpath:demobooks/steps/get_list_books.feature')
     * def getBooksByISBN = read('classpath:demobooks/steps/get_list_books_by_ISBN.feature')
     * def saveBooks = read('classpath:demobooks/steps/add_books.feature')
+    * def deleteBooks = read('classpath:demobooks/steps/delete_books.feature.feature')
+    * def getBooksById = read('classpath:demobooks/steps/get_list_books_by_userId.feature.feature')
+
 
     #test credentials
     * def userName = "laralandon"
@@ -58,7 +61,19 @@ Feature: Retrieve a single book by ISBN
     * match response.author == "Marijn Haverbeke"
     * match response.website == "http://eloquentjavascript.net/"
 
-    #6 save book to userId
+    #6 get saved book in user ID and verify it is still empty
+    * karate.call getBooksById { userId: '#(userId)'}
+    * match response.userId == userId
+    * match response.username == username
+    * match response.books[] == null
+
+    #7 save book to userId
     * karate.call getBooksByISBN { userId: '#(userId)', isbn: '#(ISBN)'}
     * match response.isbn == isbn
+
+    #8 verify books already saved in profile
+    * karate.call getBooksById { userId: '#(userId)'}
+    * match response.userId == userId
+    * match response.username == username
+    * match response.books[0].isbn == isbn
 
