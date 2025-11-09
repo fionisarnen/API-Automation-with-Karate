@@ -20,29 +20,29 @@ Feature: Retrieve a single book by ISBN
   Scenario: Successfully retrieve all book list
 
     #1 check user authorized
-    * karate.call isUserAuthorized { userName: '#(userName)', password: '#(password)'}
+    * call isUserAuthorized { userName: '#(userName)', password: '#(password)'}
     And match response == true
 
-    * karate.call isUserExist { userName: '#(userName)', password: '#(password)'}
-    And match response.userID !== null
+    * call isUserExist { userName: '#(userName)', password: '#(password)'}
+    And match response.userID != null
     And match response.username == userName
     * def userId = response.userID
 
     #2 generate user token and do login
-    * karate.call getToken  { userName: '#(userName)', password: '#(password)'}
-    And match response.token !== null
-    And match response.expires !== null
+    * call getToken  { userName: '#(userName)', password: '#(password)'}
+    And match response.token != null
+    And match response.expires != null
     And match response.status == "Success"
 
-    * karate.call login { userName: '#(userName)', password: '#(password)'}
-    And match response.token !== null
-    And match response.expires !== null
+    * call login { userName: '#(userName)', password: '#(password)'}
+    And match response.token != null
+    And match response.expires != null
     And match response.userId == userId
     And match response.username == username
     And match response.password == password
 
     #4 get list books and assert books property
-    * karate.call getAllBooks
+    * call getAllBooks
     * match response.books[] == '#notnull'
     * match response.books[0].isbn == '#notnull'
     * match response.books[0].title == '#notnull'
@@ -54,7 +54,7 @@ Feature: Retrieve a single book by ISBN
     * match response.books[0].description == '#notnull'
 
     #5 get books by ISBN
-    * karate.call getBooksByISBN { isbn: '#(ISBN)'}
+    * call getBooksByISBN { isbn: '#(ISBN)'}
     * match response.isbn == isbn
     * match response.title == "Eloquent JavaScript, Second Edition"
     * match response.subTitle == "A Modern Introduction to Programming"
@@ -62,17 +62,17 @@ Feature: Retrieve a single book by ISBN
     * match response.website == "http://eloquentjavascript.net/"
 
     #6 get saved book in user ID and verify it is still empty
-    * karate.call getBooksById { userId: '#(userId)'}
+    * call getBooksById { userId: '#(userId)'}
     * match response.userId == userId
     * match response.username == username
     * match response.books[] == null
 
     #7 save book to userId
-    * karate.call getBooksByISBN { userId: '#(userId)', isbn: '#(ISBN)'}
+    * call getBooksByISBN { userId: '#(userId)', isbn: '#(ISBN)'}
     * match response.isbn == isbn
 
     #8 verify books already saved in profile
-    * karate.call getBooksById { userId: '#(userId)'}
+    * call getBooksById { userId: '#(userId)'}
     * match response.userId == userId
     * match response.username == username
     * match response.books[0].isbn == isbn
