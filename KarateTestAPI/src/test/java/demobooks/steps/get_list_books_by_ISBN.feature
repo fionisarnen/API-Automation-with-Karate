@@ -8,7 +8,7 @@ Feature: User do search for books
 
   Scenario: Get books details by ISBN
 
-    Given url 'https://demoqa.com/BookStore/v1/Books?UserId='
+    Given url 'https://demoqa.com/BookStore/v1/Book'
     And param ISBN = isbn
     And header Content-Type = 'application/json'
     And header Origin = 'https://demoqa.com'

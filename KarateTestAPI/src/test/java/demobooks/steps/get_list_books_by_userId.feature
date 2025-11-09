@@ -5,8 +5,8 @@ Feature: User do search for books
 
   Scenario: Get books details by ISBN
 
-    Given url 'https://demoqa.com/Account/v1/User/{UUID}'
-    And path '/{UUID}', userId
+    Given url 'https://demoqa.com/Account/v1/User'
+    And path userId
     And header Content-Type = 'application/json'
     And header Origin = 'https://demoqa.com'
 
