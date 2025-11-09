@@ -18,4 +18,4 @@ Feature: User do search for books
     When method DELETE
     * karate.log("Request", credentials)
     * karate.log("Response", response)
-    Then status 200
+    Then status 204

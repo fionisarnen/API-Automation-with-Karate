@@ -77,3 +77,14 @@ Feature: Retrieve a single book by ISBN
     * match response.username == username
     * match response.books[0].isbn == isbn
 
+    #9 delete saved books in profile
+    * call deleteBooks { isbn: '#(ISBN)',userId: '#(userId)'}
+    * match response.userId == userId
+    * match response.isbn == isbn
+
+    #10 verify updated data saved books in profile
+    * call getBooksById { userId: '#(userId)'}
+    * match response.userId == userId
+    * match response.username == username
+    * match response.books[] == null
+
