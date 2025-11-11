@@ -8,33 +8,33 @@ Feature: Retrieve a single book by ISBN
     * def getAllBooks = read('classpath:demobooks/steps/get_list_books.feature')
     * def getBooksByISBN = read('classpath:demobooks/steps/get_list_books_by_ISBN.feature')
     * def saveBooks = read('classpath:demobooks/steps/add_books.feature')
-    * def deleteBooks = read('classpath:demobooks/steps/delete_books.feature.feature')
-    * def getBooksById = read('classpath:demobooks/steps/get_list_books_by_userId.feature.feature')
+    * def deleteBooks = read('classpath:demobooks/steps/delete_books.feature')
+    * def getBooksById = read('classpath:demobooks/steps/get_list_books_by_userId.feature')
 
 
     #test credentials
-    * def userName = "laralandon"
+    * def username = "laralandon"
     * def password = "Lara123!"
     * def ISBN = "9781593275846"
 
   Scenario: Successfully retrieve all book list
 
     #1 check user authorized
-    * call isUserAuthorized { userName: '#(userName)', password: '#(password)'}
-    And match response == true
+    * call isUserAuthorized { username: '#(username)', password: '#(password)'}
+    And match response == "true"
 
-    * call isUserExist { userName: '#(userName)', password: '#(password)'}
+    * call isUserExist { username: '#(username)', password: '#(password)'}
     And match response.userID != null
-    And match response.username == userName
+    And match response.username == username
     * def userId = response.userID
 
     #2 generate user token and do login
-    * call getToken  { userName: '#(userName)', password: '#(password)'}
+    * call getToken  { username: '#(username)', password: '#(password)'}
     And match response.token != null
     And match response.expires != null
     And match response.status == "Success"
 
-    * call login { userName: '#(userName)', password: '#(password)'}
+    * call login { username: '#(username)', password: '#(password)'}
     And match response.token != null
     And match response.expires != null
     And match response.userId == userId
