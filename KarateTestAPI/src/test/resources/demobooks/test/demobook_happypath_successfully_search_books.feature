@@ -2,7 +2,7 @@ Feature: Retrieve a single book by ISBN
 
   Background:
     * def isUserAuthorized = read('classpath:demobooks/steps/check_user_authorized.feature')
-    * def isUserExist = read('classpath:demobooks/steps/check_user_exist.feature')
+    * def createNewUser = read('classpath:demobooks/steps/create_new_user.feature')
     * def getToken = read('classpath:demobooks/steps/get_user_token.feature')
     * def login = read('classpath:demobooks/steps/login.feature')
     * def getAllBooks = read('classpath:demobooks/steps/get_list_books.feature')
@@ -10,20 +10,21 @@ Feature: Retrieve a single book by ISBN
     * def saveBooks = read('classpath:demobooks/steps/add_books.feature')
     * def deleteBooks = read('classpath:demobooks/steps/delete_books.feature')
     * def getBooksById = read('classpath:demobooks/steps/get_list_books_by_userId.feature')
+    * def jsUtil = read('classpath:demobooks/function/generate_random_string.js')
 
 
     #test credentials
-    * def username = "laralandon"
     * def password = "Lara123!"
     * def ISBN = "9781593275846"
 
   Scenario: Successfully retrieve all book list
 
-    #1 check user authorized
-    * call isUserAuthorized { username: '#(username)', password: '#(password)'}
-    And match response == "true"
-
-    * call isUserExist { username: '#(username)', password: '#(password)'}
+    #1 create new user and check is user authorized
+    * def randomName = jsUtil(5)
+    * def username = 'user'+ randomName.toString()
+    * karate.log(randomName)
+    
+    * call createNewUser { username: '#(username)', password: '#(password)'}
     And match response.userID != null
     And match response.username == username
     * def userId = response.userID
@@ -41,9 +42,12 @@ Feature: Retrieve a single book by ISBN
     And match response.username == username
     And match response.password == password
 
+    * call isUserAuthorized { username: '#(username)', password: '#(password)'}
+    And match response == "true"
+
     #4 get list books and assert books property
     * call getAllBooks
-    * match response.books[] == '#notnull'
+    * match response.books[*] == '#notnull'
     * match response.books[0].isbn == '#notnull'
     * match response.books[0].title == '#notnull'
     * match response.books[0].subTitle == '#notnull'

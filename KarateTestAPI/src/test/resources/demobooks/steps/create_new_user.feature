@@ -21,4 +21,4 @@ Feature: User successfully login with registered credentials
     When method POST
     * karate.log("Request", credentials)
     * karate.log("Response", response)
-    Then status 406
+    Then status 201
